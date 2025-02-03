@@ -1,4 +1,3 @@
-# Paste the code here, then press CTRL+X, Y, Enter to save
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
@@ -46,8 +45,13 @@ def classify_number():
 
     # ✅ Input validation
     try:
+        # Try to convert to float or int, don't raise error for negative or float values
         number = float(number) if '.' in number else int(number)
     except (ValueError, TypeError):
+        return jsonify({"number": number, "error": True}), 400
+
+    # Ensure the number is valid and handle negative/floating point numbers correctly
+    if number is None:
         return jsonify({"number": number, "error": True}), 400
 
     properties = []
