@@ -73,7 +73,7 @@ sudo kill <process_id>
 
 Once the API is running, you can make a request to the endpoint:
 
-URL: http://<EC2-Public-IP>/api/classify-number?number=371
+URL: http://34.234.104.218/api/classify-number?number=371
 
 Method: GET
 ✅ Success Response (200 OK)
@@ -92,6 +92,7 @@ When a valid number is provided, the API returns a JSON response with the mathem
   ]
 }
 
+http://34.234.104.218/api/classify-number?number=abc
 ❌ Error Response (400 Bad Request)
 
 If an invalid number is passed, the API will return an error message:
