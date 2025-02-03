@@ -7,9 +7,8 @@ CORS(app)  # Enable CORS
 
 # Function to check if a number is prime
 def is_prime(n):
-    if n < 2 or not float(n).is_integer():  # Prime is for positive integers only
+    if n < 2:  # Prime is for positive integers only
         return False
-    n = int(n)
     for i in range(2, int(n ** 0.5) + 1):
         if n % i == 0:
             return False
@@ -17,17 +16,14 @@ def is_prime(n):
 
 # Function to check if a number is an Armstrong number
 def is_armstrong(n):
-    if n < 0 or not float(n).is_integer():  # Only non-negative integers
-        return False
-    num_str = str(int(n))
+    num_str = str(abs(n))  # Handle both negative and positive numbers
     power = len(num_str)
-    return int(n) == sum(int(digit) ** power for digit in num_str)
+    return abs(int(n)) == sum(int(digit) ** power for digit in num_str)
 
 # Function to check if a number is perfect
 def is_perfect(n):
-    if n <= 0 or not float(n).is_integer():  # Positive integers only
+    if n <= 0:  # Positive integers only
         return False
-    n = int(n)
     return n == sum(i for i in range(1, n) if n % i == 0)
 
 # Function to get a fun fact from Numbers API
@@ -45,13 +41,9 @@ def classify_number():
 
     # ✅ Input validation
     try:
-        # Try to convert to float or int, don't raise error for negative or float values
-        number = float(number) if '.' in number else int(number)
+        # Convert to float, no need for separate int conversion
+        number = float(number)
     except (ValueError, TypeError):
-        return jsonify({"number": number, "error": True}), 400
-
-    # Ensure the number is valid and handle negative/floating point numbers correctly
-    if number is None:
         return jsonify({"number": number, "error": True}), 400
 
     properties = []
@@ -68,7 +60,8 @@ def classify_number():
         "fun_fact": get_fun_fact(number)
     }
 
-    return jsonify(result), 200  # Always return 200 for valid numbers
+    # Ensure 200 status code for all valid numbers
+    return jsonify(result), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)  # Make the API publicly accessible
